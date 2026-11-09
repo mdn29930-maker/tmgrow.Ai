@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="index,follow" />
+  <title>Privacy Policy — TM GROW</title>
+  <meta name="description" content="How TM GROW collects, uses, stores and deletes account data, social account connections, TikTok OAuth tokens and task evidence." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/app.css?v=2025-10-12-39" />
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+</head>
+<body>
+  <div class="legal-page">
+    <header class="legal-head">
+      <a class="brand" href="/">
+        <span class="brand-mark"><img src="/assets/logo.svg" alt="TM GROW" /></span>
+        <span><span class="brand-name">TM GROW</span><span class="brand-sub">Social task network</span></span>
+      </a>
+      <a class="btn btn-ghost btn-sm" href="/">Back to site</a>
+    </header>
+
+    <main class="legal-wrap">
+      <span class="eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated 12 October 2025. This policy explains what TM GROW collects, why, where it is stored and how you can remove it. It applies to every worker, buyer and administrator account.</p>
+
+      <div class="legal-card">
+        <section class="legal-sec">
+          <h2>1. Who we are</h2>
+          <p>TM GROW is a social task marketplace: workers complete verified micro tasks and earn USDT and TG Coin; brands fund campaigns and pay for completed work. This policy covers the TM GROW web application and the Telegram Mini App. It does not cover third-party websites you visit while completing a task.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>2. Information we collect</h2>
+          <ul>
+            <li><strong>Account information:</strong> the identifier and email address provided by your sign-in method (Google, email, or Telegram), your display name, avatar, country and account preferences.</li>
+            <li><strong>Wallet and ledger data:</strong> balances, deposits, withdrawals, rewards, referral commissions and the immutable transaction history created by those operations.</li>
+            <li><strong>Task activity:</strong> claimed tasks, timer data, submitted screenshots, proof links, verification decisions and review notes.</li>
+            <li><strong>Linked social accounts:</strong> the platform, the public handle you submit, its public profile data, a verification code you place in that profile, and the link status.</li>
+            <li><strong>Support and communication:</strong> support tickets, replies, Telegram delivery records and in-app notifications.</li>
+            <li><strong>Technical data:</strong> the user agent and platform reported by your browser when you sign in, used only for security and login history. We do not collect your IP address for profiling.</li>
+          </ul>
+        </section>
+
+        <section class="legal-sec">
+          <h2>3. Sign-in and TikTok OAuth</h2>
+          <p>If you choose to connect a TikTok account, TM GROW uses TikTok's official OAuth flow. You are redirected to TikTok, sign in there, and TikTok asks you to approve the requested scopes. We never see or store your TikTok password.</p>
+          <ul>
+            <li><strong>Permissions requested:</strong> only the scopes required to confirm that the account is yours and to read the public profile data needed for verification (for example your basic profile information and public account identifier). We do not request permission to post, delete, message or manage your account.</li>
+            <li><strong>Tokens:</strong> the access token returned by TikTok is stored server-side in an encrypted secret store (Supabase Vault). It is never sent to the browser, never written to frontend code, and never included in logs or notifications.</li>
+            <li><strong>Use:</strong> the token is used only to call the TikTok endpoints needed for the verification you requested, at the time you request it.</li>
+            <li><strong>Disconnection:</strong> you can disconnect a linked account at any time from Linked accounts in your profile. Disconnection removes the stored token and marks the account unlinked. You can also revoke TM GROW's access from your TikTok account settings; the token then stops working.</li>
+          </ul>
+        </section>
+
+        <section class="legal-sec">
+          <h2>4. How we use information</h2>
+          <ul>
+            <li>To operate your account, wallet, tasks, orders, referrals and support.</li>
+            <li>To verify task evidence and social account ownership, including through supported platform APIs where available.</li>
+            <li>To prevent fraud: duplicate screenshots, reused proofs, multiple accounts, manipulated referrals and suspicious withdrawals.</li>
+            <li>To send transactional notifications you asked for, including Telegram messages about approvals, deposits, withdrawals and platform announcements.</li>
+            <li>To meet legal, accounting and security obligations.</li>
+          </ul>
+          <p>We do not sell personal data. We do not use your task screenshots or social data to train advertising profiles.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>5. Storage and security</h2>
+          <ul>
+            <li>Data is stored in a managed PostgreSQL database with row-level security. Privileged operations run through server-side functions that re-check your role; the browser never holds a service key.</li>
+            <li>Secrets such as API keys, the bot token and OAuth tokens live in an encrypted secret store and are read only inside server-side functions.</li>
+            <li>Screenshots are stored in a private storage bucket and served through short-lived signed links.</li>
+            <li>Access to administrative data is restricted by role and recorded in an audit log.</li>
+          </ul>
+          <p>No system is perfectly secure. Protect your own sign-in account, and never share passwords or one-time codes.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>6. Sharing</h2>
+          <ul>
+            <li><strong>Campaign owners</strong> receive the outcome of the work they funded (approved or rejected quantity), not your personal contact details or social credentials.</li>
+            <li><strong>Service providers</strong> process data on our behalf: hosting and database (Supabase), blockchain data providers (for deposit verification), social data providers (for verification) and Telegram (for notifications you enable). They receive only what the operation requires.</li>
+            <li><strong>Legal requirements:</strong> we may disclose data where the law requires it, or to investigate fraud and protect users.</li>
+          </ul>
+        </section>
+
+        <section class="legal-sec">
+          <h2>7. Retention</h2>
+          <ul>
+            <li>Account, wallet and ledger records are kept while your account exists and afterwards as required for accounting and fraud prevention; ledger entries are immutable by design.</li>
+            <li>Task screenshots and proofs are kept while the task and any dispute or audit window is open, then removed or anonymised.</li>
+            <li>Notification delivery records are kept for a limited operational period for retries and diagnostics.</li>
+            <li>Login history and audit entries are kept for security review.</li>
+          </ul>
+        </section>
+
+        <section class="legal-sec">
+          <h2>8. Your rights and deletion</h2>
+          <p>You can access and correct your profile data in the app, disconnect linked social accounts, and turn Telegram notifications off. To request deletion of your account, open a support ticket from the account itself; we verify ownership before acting.</p>
+          <p>On deletion we remove your profile, social account links, stored tokens, task screenshots and personal identifiers. Records we must keep for financial integrity — ledger entries, approved deposits, paid withdrawals and related audit entries — are retained in a minimal, restricted form because they are part of the platform's accounting history, and are not used for any other purpose.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>9. Children</h2>
+          <p>TM GROW is for adults. You must be at least 18 years old to create an account. We do not knowingly collect data from anyone under 18; if we learn that an account belongs to a minor, it is closed and the data removed.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>10. Cookies and local storage</h2>
+          <p>We use browser storage for the minimum needed to run the app: your session token, theme preference, view mode and a few interface preferences such as favourite services. We do not use advertising cookies or third-party trackers.</p>
+        </section>
+
+        <section class="legal-sec">
+          <h2>11. Changes and contact</h2>
+          <p>If this policy changes materially, the update is announced in your in-app notifications and the date at the top of this page changes. For any privacy question, open a support ticket from your account and the team will answer inside TM GROW.</p>
+        </section>
+      </div>
+
+      <div class="legal-foot">
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/">Home</a>
+        <span>© <span id="y"></span> TM GROW</span>
+      </div>
+      <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    </main>
+  </div>
+</body>
+</html>

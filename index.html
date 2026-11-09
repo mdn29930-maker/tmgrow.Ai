@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta name="theme-color" content="#0f1015" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="TM GROW is a social task marketplace: workers complete verified micro tasks and earn USDT with TG Coin bonuses; brands launch campaigns and pay per verified task." />
+  <title>TM GROW — Social tasks, real USDT</title>
+
+  <!-- Fonts: Inter for UI/body, Manrope for headings. System fallbacks keep
+       the app readable if the font CDN is unreachable. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  <link rel="apple-touch-icon" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/styles/app.css?v=2025-10-12-39" />
+
+  <!-- Telegram Mini App SDK (vendored, no CDN). Outside Telegram it does nothing. -->
+  <script src="/vendor/telegram-web-app.js?v=2025-10-12-39"></script>
+
+  <style>
+    .boot{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#0f1015;z-index:50}
+    .boot-mark{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#ff6b00,#ff8a2b);display:grid;place-items:center;overflow:hidden;box-shadow:0 10px 30px rgba(255,107,0,.35)}
+    .boot-mark img{width:100%;height:100%;display:block;object-fit:cover}
+    .boot-name{font:700 13px/1 -apple-system,"Segoe UI",sans-serif;letter-spacing:3px;color:#8c8c98}
+    .boot-line{width:120px;height:2px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
+    .boot-line i{display:block;width:40%;height:100%;background:linear-gradient(90deg,#ff6b00,#ff8a2b);animation:bootSlide 1.1s ease-in-out infinite}
+    .boot-slow{margin-top:12px;font:500 11.5px/1.4 -apple-system,"Segoe UI",sans-serif;color:#8c8c98;letter-spacing:.4px}
+    @keyframes bootSlide{0%{transform:translateX(-120%)}100%{transform:translateX(300%)}}
+    .boot-fail{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:26px 20px;background:#07070a;color:#f2f5f9;font:400 13px/1.6 -apple-system,"Segoe UI",sans-serif}
+    .boot-fail .bf-title{font-size:19px;font-weight:800;letter-spacing:-.3px}
+    .boot-fail .bf-sub{color:#8b93a1;font-size:12.5px}
+    .boot-fail .bf-url{color:#f97316;font-size:11.5px;word-break:break-all}
+    .boot-fail .bf-err{margin:0;padding:12px;border-radius:12px;background:#141824;border:1px solid rgba(255,84,104,.35);color:#ffa7b2;font:400 11px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;max-height:34dvh;overflow:auto}
+    .boot-fail .bf-btn{height:46px;border-radius:13px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;font-weight:800;font-size:13.5px}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="boot">
+      <div class="boot-mark"><img src="/assets/logo.svg" alt="TM GROW" /></div>
+      <div class="boot-name">TM GROW</div>
+      <div class="boot-line"><i></i></div>
+    </div>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toasts" aria-live="polite"></div>
+
+  <!-- Boot watchdog: if the module graph never starts (404, blocked script,
+       fatal error), show the real reason instead of an endless splash. -->
+  <script>
+    (function () {
+      var errors = [];
+      function push(msg) { if (errors.length < 4) errors.push(String(msg || 'unknown error')); }
+      /* Capture-phase listener: also catches module-graph fetch failures
+         (404 / blocked), which fire on the <script type="module"> ELEMENT
+         with no message. A network-type failure gets ONE automatic
+         fresh-cache reload (tmgrow-boot-retry, once per session) — that heals
+         stale HTML pointing at deleted or renamed assets. Execution bugs
+         carry a message and are only logged, never auto-reloaded. */
+      window.addEventListener('error', function (e) {
+        var isScriptTag = e.target && e.target.tagName === 'SCRIPT';
+        if (isScriptTag && !e.message) {
+          push('Module load failed (network/404 while fetching the app or one of its modules)');
+          try {
+            if (!sessionStorage.getItem('tmgrow-boot-retry') && !window.__TMGROW_BOOTED) {
+              sessionStorage.setItem('tmgrow-boot-retry', '1');
+              location.replace(location.pathname + '?fresh=' + Date.now() + location.hash);
+              return;
+            }
+          } catch (_) { /* sessionStorage unavailable */ }
+        }
+        push(e.message || (e.error && e.error.message) || 'script error');
+      }, true);
+      window.addEventListener('unhandledrejection', function (e) {
+        var r = e.reason;
+        push((r && (r.message || r)) || 'promise rejection');
+      });
+
+      function fail() {
+        if (window.__TMGROW_BOOTED) return; /* module graph loaded and ran */
+        var app = document.getElementById('app');
+        if (!app || !app.querySelector('.boot')) return; /* app started */
+        var esc = function (s) {
+          return String(s).replace(/[&<>]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+          });
+        };
+        var res = [];
+        try {
+          res = window.performance && performance.getEntriesByType
+            ? performance.getEntriesByType('resource')
+            : [];
+        } catch (_) { /* ignore */ }
+        res = res.filter(function (r) {
+          return r.name && (r.name.indexOf('/src/') !== -1 || r.name.indexOf('/vendor/') !== -1);
+        });
+        var detail = errors.length
+          ? errors.map(esc).join('\n')
+          : 'No script error was reported before the safety time-out. On a slow connection the modules may still have been loading.';
+        detail += '\nLoaded ' + res.length + ' script resource(s) before the time-out'
+          + (res.length ? ':' : ' (none yet — network was still fetching).');
+        res.slice(0, 6).forEach(function (r) {
+          detail += '\n· ' + r.name.split('/').pop() + ' (' + Math.round(r.duration) + 'ms)';
+        });
+        app.innerHTML = '<div class="boot-fail">'
+          + '<div class="bf-title">TM GROW could not start</div>'
+          + '<div class="bf-sub">This link opened, but the app script did not finish. Your account and balance were not touched.</div>'
+          + '<div class="bf-url">' + esc(location.host + location.pathname) + '</div>'
+          + '<pre class="bf-err">' + detail + '</pre>'
+          + '<button class="bf-btn" id="bf-reload" type="button">Reload</button>'
+          + '</div>';
+        var btn = app.querySelector('#bf-reload');
+        if (btn) btn.addEventListener('click', function () {
+          location.replace(location.pathname + '?fresh=' + Date.now());
+        });
+      }
+
+      /* Staged watchdog: at 10s a slow connection only adds a note — the app
+         may still be loading. The failure screen appears only after 20s with
+         no boot evidence. window.__TMGROW_BOOTED is set by app.js the moment
+         its module graph has loaded, so a slow network never false-fails. */
+      setTimeout(function () {
+        if (window.__TMGROW_BOOTED) return;
+        var splash = document.querySelector('.boot .boot-line');
+        if (splash && !document.querySelector('.boot-slow')) {
+          var note = document.createElement('div');
+          note.className = 'boot-slow';
+          note.textContent = 'Slow connection — still loading…';
+          splash.parentNode.appendChild(note);
+        }
+      }, 10000);
+      setTimeout(fail, 20000);
+      window.addEventListener('load', function () { setTimeout(fail, 12000); });
+    })();
+  </script>
+
+  <script src="/vendor/supabase.js?v=2025-10-12-39"></script>
+  <script type="module" src="/src/app.js?v=2025-10-12-39"></script>
+</body>
+</html>
